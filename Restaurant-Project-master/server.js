@@ -10,7 +10,6 @@ const jwt = require('jsonwebtoken');
 const app = express();
 const port = 3001;
 
-app.use(cors());
 app.use(bodyParser.json());
 
 mongoose.connect('mongodb+srv://manoj:Movva123@cluster0.ivw5vkw.mongodb.net/chef?retryWrites=true&w=majority');
@@ -46,32 +45,22 @@ app.get('/chefs', async (req, res) => {
     res.status(500).json({ error: 'Internal server error. Failed to fetch chefs.' });
   }
 });
-// Update the /signup endpoint in server.js
 app.post('/signup', upload.array('image', 10), async (req, res) => {
   try {
     const { name, email, password, experience, item, phonenumber, location, availability, previousExperience } = req.body;
-    const image= req.files; // Corrected variable name to "images"
-
-    // Check if the email already exists in the database
+    const image= req.files; 
     const existingUser = await UserModel.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ error: 'Email already registered. Please use a different email.' });
     }
-
-    // Validate email format
     const emailRegex = /\S+@\S+\.\S+/;
     if (!emailRegex.test(email)) {
       return res.status(400).json({ error: 'Invalid email format. Please provide a valid email address.' });
     }
-
-    // Validate password length
     if (password.length < 8) {
       return res.status(400).json({ error: 'Password must be at least 8 characters long.' });
     }
-
-    // Hash the password before saving to the database
     const hashedPassword = await bcrypt.hash(password, 10);
-
     const newUser = new UserModel({
       name,
       email,
@@ -111,9 +100,6 @@ app.post('/signup-restaurant', async (req, res) => {
     if (existingRestaurant) {
       return res.status(400).json({ error: 'Email already registered. Please use a different email.' });
     }
-
-    // Validate email format
-  
     const newRestaurant = new RestaurantModel({
       name,
       restaurantname,
@@ -148,15 +134,10 @@ app.post('/signin', async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: 'User not found. Please check your email and password.' });
     }
-
-    // Compare the provided password with the hashed password
     const passwordMatch = await bcrypt.compare(password, user.password);
-
     if (!passwordMatch) {
       return res.status(401).json({ error: 'Invalid credentials. Please check your email and password.' });
     }
-
-    // Generate JWT token for the user
     const token = jwt.sign({ userId: user._id }, 'your-secret-key');
 
     res.json({ user, token }); 
