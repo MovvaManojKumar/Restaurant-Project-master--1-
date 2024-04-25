@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const restaurantSchema = new Schema({
-  name: String,
-  restaurantname: String, // Corrected field name
-  location: String,
-  phonenumber: String,
-  email: String,
-  password: String
+  namei: String,
+  restaurantnamei: String, // Corrected field name
+  locationi: String,
+  phonenumberi: String,
+  passwordi: String,
+  emaili: String
 });
-
-
+const RestaurantModel = mongoose.model('Restaurant', restaurantSchema);
+module.exports = RestaurantModel;

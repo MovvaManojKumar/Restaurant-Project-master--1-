@@ -13,9 +13,6 @@ const MainPage = () => {
       <Hero />
       <About />
       <Menu />
-      <Team />
-      <Testimonial />
-      <Reservation />
       <Footer />
     </>
   );

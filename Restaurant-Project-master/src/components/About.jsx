@@ -13,9 +13,7 @@ const About = () => {
             <div className="pretitle">{pretitle}</div>
             <h2 className="h2 capitalize">{title}</h2>
             <p className="mb-8 max-w-[560px]">{subtitle}</p>
-            <button className="btn capitalize mx-auto lg:mx-0">
-              {btnText}
-            </button>
+            
           </motion.div>
           <motion.div variants={plateVariants} className="-mb-[300px] -mr-[186px] z-10">
             <img src={image} alt="" />

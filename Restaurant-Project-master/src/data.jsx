@@ -22,6 +22,7 @@ import Avatar3 from '../src/assets/img/testimonial/avatar3.png';
     { href: '/', name: 'Home' },
     { href: '/chefs', name: 'Find Chefs' },
     {href:'/login',name:'Login'},
+    
     // Add other navigation items as needed
   ];
 export const heroData = {
@@ -29,7 +30,6 @@ export const heroData = {
   title:` Chef's Palace`,
   subtitle:
     'Ghar ka khaana aapke table par!!!',
-  btnText: 'Find out more',
 };
 
 export const socialData = [
@@ -41,17 +41,9 @@ export const socialData = [
 ];
 
 export const aboutData = {
-  pretitle: 'Our Story',
-  title: 'Who we are',
+  pretitle: 'About Us',
   subtitle:
-    `Are you craving the taste of homemade meals but don't have the time or expertise to whip them up yourself? Look no further than Chef's Palace, the premier platform connecting talented homemakers with eager food enthusiasts and restaurant professionals like yourself!
-
-    At Chef's Palace, we understand the value of home cooking and the untapped culinary talent residing within countless homemakers. Our mission is simple yet powerful: to empower skilled home cooks by providing them with meaningful employment opportunities while satisfying the cravings of those seeking delicious, homemade meals.
-    
-    Here's how it works: our platform showcases a diverse array of skilled cooks, each with their own unique signature dishes and culinary styles. Whether you're a bachelor craving a taste of home or a restaurant owner looking to add a personal touch to your menu, Chef's Palace makes it easy to discover and connect with the perfect chef for your needs.
-    
-    Our intuitive search and rating system allows you to browse through chefs based on their specialties, ratings, and proximity to your location. From traditional comfort foods to exotic cuisines, you'll find a wide range of culinary delights just waiting to be savored.` ,
-  btnText: 'find out more',
+    `This website explores a unique online platform that connects passionate home-based chefs, particularly idle women, with food enthusiasts seeking personalized and diverse culinary experiences. The website serves as a virtual marketplace where customers can select their preferred cuisine, dietary preferences, and even specific chefs to curate a tailor-made dining experience. This highlights the potential socio-economic impact of the platform, creating opportunities for women to showcase their culinary skills while meeting the evolving preferences of modern consumers. As the platform encourages a collaborative and interactive space, users can engage in a dialogue with chefs, share feedback, and contribute to the growth of a vibrant culinary community.` ,
   image: AboutImg,
 };
 

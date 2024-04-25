@@ -88,6 +88,13 @@ const SignUpForm = ({ onSignUpSuccess }) => {
         return;
       }
     
+      if (!validateEmail(emaili)) {
+        setError('Please enter a valid email address.');
+        return;
+      }
+    
+      if (!formValid) return;
+    
       formData.append('namei', namei);
       formData.append('restaurantnamei', restaurantnamei);
       formData.append('locationi', locationi);
@@ -141,7 +148,7 @@ const SignUpForm = ({ onSignUpSuccess }) => {
       <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="role" value={role} onChange={(e) => setRole(e.target.value)}>
         <option value="">Select role</option>
         <option value="chef">Chef</option>
-        <option value="restaurant">Restaurant</option>
+
       </select>
         </motion.div>
       </nav>
@@ -222,10 +229,10 @@ const SignUpForm = ({ onSignUpSuccess }) => {
       {role === 'restaurant' && (
         <form className="max-w-md mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="namei">
               Name:
             </label>
-            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" name="name" type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="namei" name="namei" type="text" value={namei} onChange={(e) => setNamei(e.target.value)} required />
           </div>
           <div className="mb-4">
             <label className="block text-gray-700 text-smfont-bold mb-2" htmlFor="restaurantnamei">
@@ -234,28 +241,28 @@ const SignUpForm = ({ onSignUpSuccess }) => {
             <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="restaurantnamei" name="restaurantnamei" type="text" value={restaurantnamei} onChange={(e) => setRestaurantNamei(e.target.value)} required />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="location">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="locationi">
               Location:
             </label>
-            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="location" name="location" type="text" value={location} onChange={(e) => setLocation(e.target.value)} required />
+            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="locationi" name="locationi" type="text" value={locationi} onChange={(e) => setLocationi(e.target.value)} required />
           </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+          <div className="mb-4"> 
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="emaili">
               Email:
             </label>
-            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" name="email" type="text" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="emaili" name="emaili" type="text" value={emaili} onChange={(e) => setEmaili(e.target.value)} required />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="passwordi">
               password:
             </label>
-            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" name="password" type="text" value={password} onChange={(e) => setPassword(e.target.value)} required />
+            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="passwordi" name="passwordi" type="text" value={passwordi} onChange={(e) => setPasswordi(e.target.value)} required />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="phonenumber">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="phonenumberi">
               Phone Number:
             </label>
-            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="phonenumber" name="phonenumber" type="text" value={phonenumber} onChange={(e) => setPhonenumber(e.target.value)} required />
+            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="phonenumberi" name="phonenumberi" type="text" value={phonenumberi} onChange={(e) => setPhonenumberi(e.target.value)} required />
           </div>
           <div className="flex items-center justify-between">
             <button className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
