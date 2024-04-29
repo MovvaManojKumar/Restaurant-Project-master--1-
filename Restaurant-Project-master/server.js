@@ -8,10 +8,10 @@ const multer = require('multer');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const app = express(); 
-const renderURL = 'https://api.render.com/deploy/srv-conm988cmk4c73a849j0?key=bXMzNTMTGDI';
+const port = 3001;
 
 app.use(bodyParser.json());
-app.use(cors({ origin: renderURL }));
+app.use(cors({ origin: 'http://localhost:3000' }));
 
 mongoose.connect('mongodb+srv://manoj:Movva123@cluster0.ivw5vkw.mongodb.net/chef?retryWrites=true&w=majority');
 
@@ -108,7 +108,6 @@ app.post('/signup', upload.array('image', 10), async (req, res) => {
     res.status(500).json({ error: 'Internal server error. Failed to sign up.' });
   }
 });
-
 app.post('/signup-restaurant', async (req, res) => {
   try {
     const { name, restaurantname, location, phonenumber, password, email } = req.body;
@@ -145,7 +144,6 @@ app.post('/signup-restaurant', async (req, res) => {
     res.status(500).json({ error: 'Internal server error. Failed to sign up restaurant.' });
   }
 });
-
 app.post('/signin', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -168,7 +166,6 @@ app.post('/signin', async (req, res) => {
     res.status(500).json({ error: 'Internal server error. Failed to sign in.' });
   }
 });
-
-app.listen(renderURL, () => {
-  console.log(`Server is running at ${renderURL}`);
+app.listen(port, () => {
+  console.log(`Server is running at http://localhost:${port}`);
 });
