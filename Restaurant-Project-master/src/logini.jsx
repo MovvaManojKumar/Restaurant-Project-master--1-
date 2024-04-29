@@ -21,7 +21,7 @@ const SignUpForm = ({ onSignUpSuccess }) => {
 
   const handleImageChange = (e) => {
     setImage(e.target.files);
-    
+  
   };
   
   const validateEmail = (email) => {
@@ -49,7 +49,7 @@ const SignUpForm = ({ onSignUpSuccess }) => {
     //}
     let endpoint;
 if (role === 'chef') {
-    endpoint = 'https://chefs-palace-server.onrender.com/signup';
+    endpoint = 'http://localhost:3001/signup';
 } else {
     endpoint = 'https://chefs-palace-server.onrender.com/signup-restaurant';
 }
