@@ -76,10 +76,10 @@ function ChefsPage() {
       </style>
       <nav className="bg-gray-900 py-4">
         <div className="flex items-center justify-between w-full mx-auto px-4">
-          <div className="flex items-center">
-            <h1 className="text-2xl font-bold text-white">Chef's Palace</h1>
-            {loggedIn && <FaUser className="text-white ml-2" />}
-          </div>
+        <div className="flex items-center">
+  <a href="/" className="text-2xl font-bold text-white">Chef's Palace</a>
+  {loggedIn && <FaUser className="text-white ml-2" />}
+</div>
           <div className="flex">
             <input
               type="text"

@@ -110,21 +110,30 @@ app.post('/signup', upload.array('image', 10), async (req, res) => {
 });
 app.post('/signup-restaurant', async (req, res) => {
   try {
-    const { namei, restaurantnamei, locationi, phonenumberi, passwordi, emaili } = req.body;
-    if (!namei || !restaurantnamei || !locationi || !phonenumberi || !passwordi || !emaili) {
+    const { name, restaurantname, location, phonenumber, password, email } = req.body;
+    if (!name || !restaurantname|| !location || !phonenumber || !password || !email) {
       return res.status(400).json({ error: 'All fields are required.' });
     }
-    const existingRestaurant = await RestaurantModel.findOne({ emaili });
+    const existingRestaurant = await RestaurantModel.findOne({ email });
     if (existingRestaurant) {
       return res.status(400).json({ error: 'Email already registered. Please use a different email.' });
     }
+    // Validate email format
+    const emailRegex = /\S+@\S+\.\S+/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ error: 'Invalid email format. Please provide a valid email address.' });
+    }
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const newRestaurant = new RestaurantModel({
-      namei,
-      restaurantnamei,
-      locationi,
-      phonenumberi,
-      passwordi,
-      emaili
+      name,
+      restaurantname,
+      location,
+      phonenumber,
+      password: hashedPassword,
+      email
     });
     const savedRestaurant = await newRestaurant.save();
     console.log('Restaurant signed up:', savedRestaurant);
@@ -160,4 +169,3 @@ app.post('/signin', async (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
-
