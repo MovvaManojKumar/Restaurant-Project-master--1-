@@ -21,7 +21,7 @@ const SignUpForm = ({ onSignUpSuccess }) => {
 
   const handleImageChange = (e) => {
     setImage(e.target.files);
-    setImageError(null);
+    
   };
   
   const validateEmail = (email) => {
