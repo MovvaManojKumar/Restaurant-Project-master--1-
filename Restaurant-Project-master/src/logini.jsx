@@ -8,21 +8,15 @@ const SignUpForm = ({ onSignUpSuccess }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [passwordi, setPasswordi] = useState('');
   const [item, setItem] = useState('');
   const [experience, setExperience] = useState('');
   const [phonenumber, setPhonenumber] = useState('');
-  const[emaili,setEmaili]=useState('');
   const [location, setLocation] = useState('');
   const [availability, setAvailability] = useState('');
   const [previousExperience, setPreviousExperience] = useState('');
-  const [namei, setNamei] = useState('');
   const [restaurantname, setRestaurantName] = useState('');
-  const [locationi, setLocationi] = useState('');
-  const [phonenumberi, setPhonenumberi] = useState('');
   const [image, setImage] = useState(null);
   const [error, setError] = useState(null);
-  const [imageError, setImageError] = useState(null);
   const [emailError, setEmailError] = useState(null); // State to handle email already registered error
 
   const handleImageChange = (e) => {
