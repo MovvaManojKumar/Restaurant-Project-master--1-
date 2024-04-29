@@ -49,7 +49,7 @@ const SignUpForm = ({ onSignUpSuccess }) => {
     //}
     let endpoint;
 if (role === 'chef') {
-    endpoint = 'http://localhost:3001/signup';
+    endpoint = 'https://chefs-palace-server.onrender.com/signup';
 } else {
     endpoint = 'https://chefs-palace-server.onrender.com/signup-restaurant';
 }
