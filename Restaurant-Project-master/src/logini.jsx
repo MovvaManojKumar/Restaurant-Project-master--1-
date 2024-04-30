@@ -49,9 +49,9 @@ const SignUpForm = ({ onSignUpSuccess }) => {
     //}
     let endpoint;
 if (role === 'chef') {
-    endpoint = 'https://chefs-palace-server.onrender.com/signup';
+    endpoint = 'http://localhost:3001/signup';
 } else {
-    endpoint = 'https://chefs-palace-server.onrender.com/signup-restaurant';
+    endpoint = 'http://localhost:3001/signup-restaurant';
 }
     const formData = new FormData();
     let formValid = true;
@@ -295,7 +295,7 @@ const SignInForm = () => {
     setError(null);
 
     try {
-      const response = await axios.post('https://chefs-palace-server.onrender.com/signin', {
+      const response = await axios.post('http://localhost:3001/signin', {
         email,
         password
       });
