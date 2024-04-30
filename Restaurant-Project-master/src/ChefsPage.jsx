@@ -15,7 +15,7 @@ function ChefsPage() {
 
   useEffect(() => {
     axios
-      .get('https://chefs-palace-server.onrender.com/chefs')
+      .get('http://localhost:3001/chefs')
       .then((response) => {
         console.log(response.data);
         setChefs(response.data);
