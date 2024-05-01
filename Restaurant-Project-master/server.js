@@ -12,8 +12,8 @@ const port = 3001;
 
 app.use(bodyParser.json());
 app.use(cors({ origin: 'http://localhost:3000' }));
-const url="mongodb+srv://manoj:Movva123@cluster0.ivw5vkw.mongodb.net/chef?retryWrites=true&w=majority"
-mongoose.connect(url);
+
+mongoose.connect('mongodb+srv://manoj:Movva123@cluster0.ivw5vkw.mongodb.net/chef?retryWrites=true&w=majority');
 
 // Multer storage configuration
 const storage = multer.memoryStorage();
