@@ -11,7 +11,7 @@ const app = express();
 const port = 3001;
 
 app.use(bodyParser.json());
-app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(cors({ origin: 'https://6631d7be0f3c5886a7fbb802--fabulous-queijadas-be9abc.netlify.app' }));
 
 mongoose.connect('mongodb+srv://manoj:Movva123@cluster0.ivw5vkw.mongodb.net/chef?retryWrites=true&w=majority');
 
