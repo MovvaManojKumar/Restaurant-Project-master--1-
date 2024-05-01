@@ -11,7 +11,7 @@ const app = express();
 const port = 3001;
 
 app.use(bodyParser.json());
-app.use(cors({ origin: 'https://capable-hamster-b9479e.netlify.app' }));
+app.use(cors({ origin: 'https://chefs-palace.netlify.app/' }));
 
 mongoose.connect('mongodb+srv://manoj:Movva123@cluster0.ivw5vkw.mongodb.net/chef?retryWrites=true&w=majority');
 
