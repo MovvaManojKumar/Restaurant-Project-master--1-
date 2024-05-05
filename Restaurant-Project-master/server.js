@@ -11,7 +11,7 @@ const app = express();
 const port = 3001;
 
 app.use(bodyParser.json());
-app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(cors({ origin: 'https://chefs-palace.netlify.app' }));
 
 mongoose.connect('mongodb+srv://manoj:Movva123@cluster0.ivw5vkw.mongodb.net/chef?retryWrites=true&w=majority');
 
@@ -164,46 +164,6 @@ app.post('/signin', async (req, res) => {
   } catch (error) {
     console.error('Error signing in:', error);
     res.status(500).json({ error: 'Internal server error. Failed to sign in.' });
-  }
-});
-// Update chef details
-app.put('/chefs/:id', upload.array('image', 10), async (req, res) => {
-  try {
-    const { name, email, password, experience, item, phonenumber, location, availability, previousExperience } = req.body;
-    const image = req.files;
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const updatedChef = await UserModel.findByIdAndUpdate(req.params.id, {
-      name,
-      email,
-      password: hashedPassword,
-      experience,
-      item,
-      phonenumber,
-      location,
-      availability,
-      previousExperience,
-      image: {
-        data: image && image[0] ? image[0].buffer.toString('base64') : null,
-        contentType: image && image[0] ? image[0].mimetype : null
-      }
-    }, { new: true });
-
-    res.json(updatedChef);
-  } catch (error) {
-    console.error('Error updating chef:', error);
-    res.status(500).json({ error: 'Internal server error. Failed to update chef.' });
-  }
-});
-
-// Delete chef
-app.delete('/chefs/:id', async (req, res) => {
-  try {
-    await UserModel.findByIdAndDelete(req.params.id);
-    res.status(204).send();
-  } catch (error) {
-    console.error('Error deleting chef:', error);
-    res.status(500).json({ error: 'Internal server error. Failed to delete chef.' });
   }
 });
 app.listen(port, () => {
