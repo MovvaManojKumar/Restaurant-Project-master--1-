@@ -3,21 +3,26 @@ import axios from 'axios';
 import bgImage from './assets/img/testimonial/bg.png';
 import { motion } from 'framer-motion';
 
-import Socials from './components/Socials';
-import { FaUser } from 'react-icons/fa';
-
 function ChefsPage() {
   const [chefs, setChefs] = useState([]);
   const [selectedChef, setSelectedChef] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterOption, setFilterOption] = useState('all');
   const [loggedIn, setLoggedIn] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    experience: '',
+    item: '',
+    phonenumber: '',
+    location: '',
+    availability: '',
+    previousExperience: ''
+  });
 
   useEffect(() => {
-    axios
-      .get('https://chefs-palace-server.onrender.com/chefs')
+    axios.get('https://chefs-palace-server.onrender.com/chefs')
       .then((response) => {
-        console.log(response.data);
         setChefs(response.data);
       })
       .catch((err) => console.error('Error fetching chef data:', err));
@@ -25,6 +30,16 @@ function ChefsPage() {
 
   const handleViewDetails = (chef) => {
     setSelectedChef(chef);
+    setFormData({
+      name: chef.name,
+      experience: chef.experience.toString(),
+      item: chef.item,
+      phonenumber: chef.phonenumber,
+      location: chef.location,
+      availability: chef.availability,
+      previousExperience: chef.previousExperience
+    });
+    setEditMode(false);
   };
 
   const handleSearchChange = (event) => {
@@ -33,6 +48,60 @@ function ChefsPage() {
 
   const handleFilterChange = (event) => {
     setFilterOption(event.target.value);
+  };
+
+  const handleDelete = (chefId) => {
+    axios.delete(`https://chefs-palace-server.onrender.com/chefs/${chefId}`)
+      .then(() => {
+        setChefs(chefs.filter(chef => chef._id !== chefId));
+        setSelectedChef(null);
+      })
+      .catch(err => console.error('Error deleting chef:', err));
+  };
+
+  const handleEdit = () => {
+    setEditMode(true);
+  };
+
+  const handleUpdate = async (e) => {
+    e.preventDefault(); // Prevent default form submission behavior
+
+    try {
+      const data = new FormData();
+      Object.keys(formData).forEach(key => {
+        data.append(key, formData[key]);
+      });
+
+      // Append image file if it's part of the form
+      // Assuming you have a file input for images
+      // const fileInput = document.querySelector('input[type="file"]');
+      // if (fileInput && fileInput.files[0]) {
+      //   data.append('image', fileInput.files[0]);
+      // }
+
+      const response = await axios.put(`https://chefs-palace-server.onrender.com/chefs/${selectedChef._id}`, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      // Update chefs state with the updated chef
+      const updatedChefs = chefs.map(chef => chef._id === selectedChef._id ? { ...chef, ...formData } : chef);
+      setChefs(updatedChefs);
+      setEditMode(false);
+      setSelectedChef(null);
+    } catch (error) {
+      console.error('Error updating chef:', error);
+      // Handle error
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
   };
 
   const filteredChefs = chefs.filter((chef) => {
@@ -69,17 +138,15 @@ function ChefsPage() {
           nav h1 {
             color: #ffffff;
           }
-          input[type='text'] {
+          input[type='text'], select {
             background-color: #ffffff;
           }
         `}
       </style>
       <nav className="bg-gray-900 py-4">
         <div className="flex items-center justify-between w-full mx-auto px-4">
-        <div className="flex items-center">
-  <a href="/" className="text-2xl font-bold text-white">Chef's Palace</a>
-  {loggedIn && <FaUser className="text-white ml-2" />}
-</div>
+          <a href="/" className="text-2xl font-bold text-white">Chef's Palace</a>
+          {loggedIn && <FaUser className="text-white ml-2" />}
           <div className="flex">
             <input
               type="text"
@@ -114,7 +181,7 @@ function ChefsPage() {
       >
         {filteredChefs.map((chef, index) => (
           <motion.div
-            key={index}
+            key={chef._id}
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.1 * index }}
@@ -123,15 +190,12 @@ function ChefsPage() {
             whileTap={{ scale: 0.95 }}
             onClick={() => handleViewDetails(chef)}
           >
-          
-          <motion.img
-  src={`data:${chef.image.contentType};base64,${chef.image.data}`}
-  alt={chef.name}
-  className="mb-4 w-32 h-32 rounded-lg shadow-md" // Adjust width and height here
-  style={{ objectFit: 'cover' }} // Ensure the image covers the specified dimensions
-/>
-
-            
+            <motion.img
+              src={`data:${chef.image.contentType};base64,${chef.image.data}`}
+              alt={chef.name}
+              className="mb-4 w-32 h-32 rounded-lg shadow-md"
+              style={{ objectFit: 'cover' }}
+            />
             <motion.h2
               className="text-lg font-semibold"
               initial={{ opacity: 0 }}
@@ -156,25 +220,54 @@ function ChefsPage() {
             >
               Expert Food Item: {chef.item}
             </motion.p>
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-              View Details
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => handleEdit()}>
+              Edit Details
+            </button>
+            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => handleDelete(chef._id)}>
+              Delete
             </button>
           </motion.div>
         ))}
       </motion.div>
-      {selectedChef && (
+      {selectedChef && editMode && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex items-center justify-center"
         >
-          <div className="bg-white p-6 rounded-lg bg-opacity-80">
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            <form onSubmit={handleUpdate}>
+              <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" className="mb-2 p-2 w-full" />
+              <input type="text" name="experience" value={formData.experience} onChange={handleChange} placeholder="Experience" className="mb-2 p-2 w-full" />
+              <input type="text" name="item" value={formData.item} onChange={handleChange} placeholder="Expert Food Item" className="mb-2 p-2 w-full" />
+              <input type="text" name="phonenumber" value={formData.phonenumber} onChange={handleChange} placeholder="Phone Number" className="mb-2 p-2 w-full" />
+              <input type="text" name="location" value={formData.location} onChange={handleChange} placeholder="Location" className="mb-2 p-2 w-full" />
+              <input type="text" name="availability" value={formData.availability} onChange={handleChange} placeholder="Availability" className="mb-2 p-2 w-full" />
+              <input type="text" name="previousExperience" value={formData.previousExperience} onChange={handleChange} placeholder="Previous Experience" className="mb-2 p-2 w-full" />
+              <button type="submit" className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                Update Chef
+              </button>
+              <button type="button" onClick={() => { setEditMode(false); setSelectedChef(null); }} className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-4">
+                Cancel
+              </button>
+            </form>
+          </div>
+        </motion.div>
+      )}
+      {selectedChef && !editMode && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex items-center justify-center"
+        >
+          <div className="bg-white p-6 rounded-lg shadow-lg">
             <h2 className="text-lg font-semibold">{selectedChef.name}</h2>
             <p className="text-gray-600 mb-2">Experience: {selectedChef.experience} years</p>
             <p className="text-gray-600 mb-2">Expert Food Item: {selectedChef.item}</p>
             <p className="text-gray-600 mb-2">Phone Number: {selectedChef.phonenumber}</p>
-            <p className="text-gray-600 mb-2">Availbility Time: {selectedChef.availability}</p>
+            <p className="text-gray-600 mb-2">Availability Time: {selectedChef.availability}</p>
             <p className="text-gray-600 mb-2">Location: {selectedChef.location}</p>
             <p className="text-gray-600 mb-2">Previous Experience: {selectedChef.previousExperience}</p>
             <button
@@ -186,7 +279,6 @@ function ChefsPage() {
           </div>
         </motion.div>
       )}
-      
     </>
   );
 }
