@@ -21,7 +21,7 @@ import Avatar3 from '../src/assets/img/testimonial/avatar3.png';
   export const navData = [
     { href: '/', name: 'Home' },
     { href: '/chefs', name: 'Find Chefs' },
-    {href:'/login',name:'Chefs Registration'},
+    {href:'/login',name:'Chefs RegistrationS'},
     
     // Add other navigation items as needed
   ];
